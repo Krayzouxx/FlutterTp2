@@ -10,6 +10,7 @@ import 'page_parametres.dart';
 class ModeleMinuteur {
   String? temps;
   double? pourcentage;
+
   ModeleMinuteur(this.temps, this.pourcentage);
 }
 
@@ -57,8 +58,10 @@ class Minuteur {
     if (tempsPauseLongueMinutes == null) {
       await preferences.setInt(CLE_PAUSE_LONGUE, TEMPS_PAUSE_LONGUE_DEFAUT);
     }
-    tempsPauseCourte = Duration(minutes: tempsPauseCourteMinutes ?? TEMPS_PAUSE_COURTE_DEFAUT);
-    tempsPauseLongue = Duration(minutes: tempsPauseLongueMinutes ?? TEMPS_PAUSE_LONGUE_DEFAUT);
+    tempsPauseCourte =
+        Duration(minutes: tempsPauseCourteMinutes ?? TEMPS_PAUSE_COURTE_DEFAUT);
+    tempsPauseLongue =
+        Duration(minutes: tempsPauseLongueMinutes ?? TEMPS_PAUSE_LONGUE_DEFAUT);
   }
 
   void arreterMinuteur() {
@@ -118,17 +121,16 @@ class BoutonGenerique extends StatelessWidget {
 }
 
 class PageAccueilMinuterie extends StatefulWidget {
-  final Function()? onParametresChanged; // Ajoutez cette ligne
+  final Function()? onParametresChanged;
 
-  PageAccueilMinuterie({Key? key, this.onParametresChanged}) : super(key: key); // Modifiez le constructeur
+  PageAccueilMinuterie({Key? key, this.onParametresChanged})
+      : super(key: key);
 
   @override
   _PageAccueilMinuterieState createState() => _PageAccueilMinuterieState();
 }
 
-class _PageAccueilMinuterieState extends
-
-State<PageAccueilMinuterie> {
+class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
   static const double REMPLISSAGE_DEFAUT = 5.0;
   final minuteur = Minuteur();
   int tempsPauseCourte = TEMPS_PAUSE_COURTE_DEFAUT;
@@ -137,7 +139,8 @@ State<PageAccueilMinuterie> {
   void allerParametres(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Parametres(onParametresChanged: majParametres)), // Modifiez cette ligne
+      MaterialPageRoute(
+          builder: (context) => Parametres(onParametresChanged: majParametres)),
     );
   }
 
@@ -194,7 +197,8 @@ State<PageAccueilMinuterie> {
                           action: () {
                             setState(() {
                               minuteur._temps = const Duration(minutes: 30);
-                              minuteur._tempsTotal = const Duration(minutes: 30);
+                              minuteur._tempsTotal =
+                                  const Duration(minutes: 30);
                               minuteur.relancerMinuteur();
                             });
                           },
@@ -242,8 +246,7 @@ State<PageAccueilMinuterie> {
                       return CircularPercentIndicator(
                         radius: (largeurDisponible - 60.0) / 5.0,
                         lineWidth: 10.0,
-                        percent: data?.
-                        pourcentage ?? 1,
+                        percent: data?.pourcentage ?? 1,
                         center: Text(
                           data?.temps ?? '30:00',
                           style: Theme.of(context).textTheme.headlineMedium,
