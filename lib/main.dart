@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'page_accueil_minuterie.dart';
-import 'variables_globales.dart' as globals;
 
 
 
 void main() {
-  globals.temps_travail = 30;
-  globals.temps_mini = 5;
-  globals.temps_maxi = 20;
   runApp(MyApp());
 }
 
