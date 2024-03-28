@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bouton.dart';
-import 'main.dart';
+
+
+
+const String CLE_TEMPS_TRAVAIL = 'Temps de travail';
+const String CLE_PAUSE_COURTE = 'Pause courte';
+const String CLE_PAUSE_LONGUE = 'Pause longue';
+
+const int TEMPS_PAUSE_COURTE_DEFAUT = 5; // 5 minutes
+const int TEMPS_PAUSE_LONGUE_DEFAUT = 20; // 20 minutes
+const int TEMPS_TRAVAIL_DEFAUT = 30; // 30 minutes
 
 class Parametres extends StatefulWidget {
   final Function? onParametresChanged;
@@ -49,21 +58,21 @@ class _ParametresState extends State<Parametres> {
       temps += value;
       if (temps >= 1 && temps <= 180) {
         preferences.setInt(CLE_TEMPS_TRAVAIL, temps);
-        await lireParametres(); // Mettre à jour les valeurs après les avoir modifiées.
+        await lireParametres();
       }
     } else if (cle == CLE_PAUSE_COURTE) {
       temps = preferences.getInt(CLE_PAUSE_COURTE) ?? TEMPS_PAUSE_COURTE_DEFAUT;
       temps += value;
       if (temps >= 1 && temps <= 180) {
         preferences.setInt(CLE_PAUSE_COURTE, temps);
-        await lireParametres(); // Mettre à jour les valeurs après les avoir modifiées.
+        await lireParametres();
       }
     } else if (cle == CLE_PAUSE_LONGUE) {
       temps = preferences.getInt(CLE_PAUSE_LONGUE) ?? TEMPS_PAUSE_LONGUE_DEFAUT;
       temps += value;
       if (temps >= 1 && temps <= 180) {
         preferences.setInt(CLE_PAUSE_LONGUE, temps);
-        await lireParametres(); // Mettre à jour les valeurs après les avoir modifiées.
+        await lireParametres();
       }
     }
 

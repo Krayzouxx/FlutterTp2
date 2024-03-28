@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'main.dart';
 import 'page_parametres.dart';
 
 class ModeleMinuteur {
@@ -19,8 +18,9 @@ class Minuteur {
   bool _estActif = false;
   Duration _temps = const Duration(minutes: 30);
   Duration _tempsTotal = const Duration(minutes: 30);
-  Duration tempsPauseCourte = const Duration(minutes: 5);
-  Duration tempsPauseLongue = const Duration(minutes: 20);
+  Duration tempsTravail = Duration(minutes: 30);
+  Duration tempsPauseCourte =  Duration(minutes: 5);
+  Duration tempsPauseLongue = Duration(minutes: 20);
 
   String retournerTemps(Duration t) {
     String minutes = t.inMinutes.toString().padLeft(2, '0');
@@ -87,7 +87,13 @@ class Minuteur {
       _tempsTotal = tempsPauseLongue;
     }
   }
+  void demarrerTravail(){
+    _estActif = true;
+    _temps=tempsTravail;
+    _tempsTotal=tempsTravail;
+  }
 }
+
 
 class BoutonGenerique extends StatelessWidget {
   final Color couleur;
@@ -123,8 +129,7 @@ class BoutonGenerique extends StatelessWidget {
 class PageAccueilMinuterie extends StatefulWidget {
   final Function()? onParametresChanged;
 
-  PageAccueilMinuterie({Key? key, this.onParametresChanged})
-      : super(key: key);
+  PageAccueilMinuterie({super.key, this.onParametresChanged});
 
   @override
   _PageAccueilMinuterieState createState() => _PageAccueilMinuterieState();
@@ -135,6 +140,7 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
   final minuteur = Minuteur();
   int tempsPauseCourte = TEMPS_PAUSE_COURTE_DEFAUT;
   int tempsPauseLongue = TEMPS_PAUSE_LONGUE_DEFAUT;
+  int tempsTravail = TEMPS_TRAVAIL_DEFAUT;
 
   void allerParametres(BuildContext context) {
     Navigator.push(
@@ -148,6 +154,7 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
     setState(() {
       minuteur.tempsPauseCourte = Duration(minutes: tempsPauseCourte);
       minuteur.tempsPauseLongue = Duration(minutes: tempsPauseLongue);
+      minuteur.tempsTravail = Duration(minutes: tempsTravail);
     });
     if (widget.onParametresChanged != null) {
       widget.onParametresChanged!();
@@ -209,11 +216,12 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
                       child: Padding(
                         padding: const EdgeInsets.all(REMPLISSAGE_DEFAUT),
                         child: BoutonGenerique(
-                          couleur: Colors.white,
-                          texte: 'Mini pause',
+                          couleur: Colors.blueAccent,
+                          texte: 'Mini pause $tempsPauseCourte',
                           taille: 100.0,
                           action: () {
                             setState(() {
+                              minuteur.lireParametres();
                               minuteur.demarrerPause(true);
                             });
                           },
@@ -225,7 +233,7 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
                         padding: const EdgeInsets.all(REMPLISSAGE_DEFAUT),
                         child: BoutonGenerique(
                           couleur: Colors.red,
-                          texte: 'Maxi pause',
+                          texte: 'Maxi pause $tempsPauseLongue',
                           taille: 100.0,
                           action: () {
                             setState(() {
