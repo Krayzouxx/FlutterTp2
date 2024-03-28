@@ -204,10 +204,7 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
                           taille: 100.0,
                           action: () {
                             setState(() {
-                              minuteur._temps = const Duration(minutes: 30);
-                              minuteur._tempsTotal =
-                                  const Duration(minutes: 30);
-                              minuteur.relancerMinuteur();
+                              minuteur.demarrerTravail();
                             });
                           },
                         ),
