@@ -5,6 +5,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'page_parametres.dart';
+import 'variables_globales.dart' as globals;
 
 class ModeleMinuteur {
   String? temps;
@@ -16,11 +17,11 @@ class ModeleMinuteur {
 class Minuteur {
   double _pourcentage = 1.0;
   bool _estActif = false;
-  Duration _temps = const Duration(minutes: 30);
-  Duration _tempsTotal = const Duration(minutes: 30);
-  Duration tempsTravail = Duration(minutes: 30);
-  Duration tempsPauseCourte =  Duration(minutes: 5);
-  Duration tempsPauseLongue = Duration(minutes: 20);
+  Duration _temps = Duration(minutes: globals.temps_travail);
+  Duration _tempsTotal = Duration(minutes: globals.temps_travail);
+  Duration tempsTravail = Duration(minutes: globals.temps_travail);
+  Duration tempsPauseCourte =  Duration(minutes: globals.temps_mini);
+  Duration tempsPauseLongue = Duration(minutes: globals.temps_maxi);
 
   String retournerTemps(Duration t) {
     String minutes = t.inMinutes.toString().padLeft(2, '0');
@@ -152,9 +153,9 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
 
   void majParametres() {
     setState(() {
-      minuteur.tempsPauseCourte = Duration(minutes: tempsPauseCourte);
-      minuteur.tempsPauseLongue = Duration(minutes: tempsPauseLongue);
-      minuteur.tempsTravail = Duration(minutes: tempsTravail);
+      minuteur.tempsPauseCourte = Duration(minutes: globals.temps_mini);
+      minuteur.tempsPauseLongue = Duration(minutes: globals.temps_maxi);
+      minuteur.tempsTravail = Duration(minutes: globals.temps_travail);
     });
     if (widget.onParametresChanged != null) {
       widget.onParametresChanged!();
@@ -217,7 +218,7 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
                         padding: const EdgeInsets.all(REMPLISSAGE_DEFAUT),
                         child: BoutonGenerique(
                           couleur: Colors.blueAccent,
-                          texte: 'Mini pause $tempsPauseCourte',
+                          texte: 'Mini pause',
                           taille: 100.0,
                           action: () {
                             setState(() {
@@ -233,7 +234,7 @@ class _PageAccueilMinuterieState extends State<PageAccueilMinuterie> {
                         padding: const EdgeInsets.all(REMPLISSAGE_DEFAUT),
                         child: BoutonGenerique(
                           couleur: Colors.red,
-                          texte: 'Maxi pause $tempsPauseLongue',
+                          texte: 'Maxi pause',
                           taille: 100.0,
                           action: () {
                             setState(() {

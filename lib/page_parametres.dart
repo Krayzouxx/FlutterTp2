@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'bouton.dart';
+import 'variables_globales.dart' as globals;
 
 
 
@@ -22,9 +23,6 @@ class Parametres extends StatefulWidget {
 }
 
 class _ParametresState extends State<Parametres> {
-  int tempsTravail = 30;
-  int pauseCourte = 5;
-  int pauseLongue = 20;
 
   TextEditingController txtTempsTravail = TextEditingController();
   TextEditingController txtTempsPauseCourte = TextEditingController();
@@ -39,13 +37,13 @@ class _ParametresState extends State<Parametres> {
   Future<void> lireParametres() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      tempsTravail = preferences.getInt(CLE_TEMPS_TRAVAIL) ?? TEMPS_TRAVAIL_DEFAUT;
-      pauseCourte = preferences.getInt(CLE_PAUSE_COURTE) ?? TEMPS_PAUSE_COURTE_DEFAUT;
-      pauseLongue = preferences.getInt(CLE_PAUSE_LONGUE) ?? TEMPS_PAUSE_LONGUE_DEFAUT;
+      globals.temps_travail = preferences.getInt(CLE_TEMPS_TRAVAIL) ?? TEMPS_TRAVAIL_DEFAUT;
+      globals.temps_mini = preferences.getInt(CLE_PAUSE_COURTE) ?? TEMPS_PAUSE_COURTE_DEFAUT;
+      globals.temps_maxi = preferences.getInt(CLE_PAUSE_LONGUE) ?? TEMPS_PAUSE_LONGUE_DEFAUT;
 
-      txtTempsTravail.text = tempsTravail.toString();
-      txtTempsPauseCourte.text = pauseCourte.toString();
-      txtTempsPauseLongue.text = pauseLongue.toString();
+      txtTempsTravail.text = globals.temps_travail.toString();
+      txtTempsPauseCourte.text = globals.temps_mini.toString();
+      txtTempsPauseLongue.text = globals.temps_maxi.toString();
     });
   }
 
@@ -119,7 +117,7 @@ class _ParametresState extends State<Parametres> {
             controller: txtTempsTravail,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
-              hintText: tempsTravail.toString(),
+              hintText: globals.temps_travail.toString(),
             ),
             onChanged: (value) {
               setState(() {
@@ -145,7 +143,7 @@ class _ParametresState extends State<Parametres> {
             controller: txtTempsPauseCourte,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
-              hintText: pauseCourte.toString(),
+              hintText: globals.temps_mini.toString(),
             ),
             onChanged: (value) {
               setState(() {
@@ -171,7 +169,7 @@ class _ParametresState extends State<Parametres> {
             controller: txtTempsPauseLongue,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
-              hintText: pauseLongue.toString(),
+              hintText: globals.temps_maxi.toString(),
             ),
             onChanged: (value) {
               setState(() {
